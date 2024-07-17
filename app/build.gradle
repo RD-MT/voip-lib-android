@@ -10,11 +10,16 @@ android {
     defaultConfig {
         minSdk 28
         targetSdk 34
-        versionCode 2
-        versionName "1.0.2"
+        versionCode 1
+        versionName "1.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set("sources")
 }
 
 publishing {
@@ -22,8 +27,7 @@ publishing {
         maven(MavenPublication) {
             groupId "com.github.RD-MT"
             artifactId "voip-lib-android"
-            version "1.0.2"
-            artifact "$buildDir/outputs/aar/app-release.aar"
+            version "1.0.3"
 
             pom {
                 withXml {
@@ -41,7 +45,7 @@ publishing {
             }
         }
     }
-    repositories {
+    /*repositories {
         maven {
             def propsFile = rootProject.file('./github.properties')
             def props = new Properties()
@@ -49,11 +53,11 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/RD-MT/voip-lib-android")
             credentials {
-                username = "RD-MT"
-                password = "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"
+                username props['username']
+                password props['token']
             }
         }
-    }
+    }*/
 }
 
 dependencies {
