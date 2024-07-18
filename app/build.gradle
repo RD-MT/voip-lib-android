@@ -10,7 +10,7 @@ android {
         minSdk 28
         targetSdk 34
         versionCode 1
-        versionName "1.0.10"
+        versionName "1.0.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,31 +35,31 @@ task sourceJar(type: Jar) {
     archiveClassifier.set('sources')
 }
 
-publishing {
+/*publishing {
     publications {
         release(MavenPublication) {
             groupId "com.github.RD-MT"
             artifactId "voip-lib-android"
             version "1.0.10"
 
-            /*artifact "$buildDir/outputs/aar/app-release.aar"
+            *//*artifact "$buildDir/outputs/aar/app-release.aar"
 
-            *//*afterEvaluate {
+            *//*/*afterEvaluate {
                 from components.release
-            }*//*
+            }*//*/*
             artifact(sourceJar) {
                 classifier 'sources'
-            }*/
+            }*//*
         }
     }
-}
+}*/
 
-/*publishing {
+publishing {
     publications {
         maven(MavenPublication) {
             groupId "com.github.RD-MT"
             artifactId "voip-lib-android"
-            version "1.0.3"
+            version "1.0.11"
 
             pom {
                 withXml {
@@ -77,7 +77,7 @@ publishing {
             }
         }
     }
-    *//*repositories {
+    repositories {
         maven {
             def propsFile = rootProject.file('./github.properties')
             def props = new Properties()
@@ -89,8 +89,8 @@ publishing {
                 password props['token']
             }
         }
-    }*//*
-}*/
+    }
+}
 
 dependencies {
     /*implementation(name: 'linphone-sdk-android-5.2.110', ext: 'aar')*/
