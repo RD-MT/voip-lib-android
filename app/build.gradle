@@ -10,9 +10,17 @@ android {
         minSdk 28
         targetSdk 34
         versionCode 1
-        versionName "1.0.12"
+        versionName "1.0.13"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'
+        }
     }
 
     publishing {
@@ -57,43 +65,20 @@ task sourceJar(type: Jar) {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId "com.github.RD-MT"
-            artifactId "voip-lib-android"
-            version "1.0.12"
-
+            groupId = 'com.github.RD-MT'
+            artifactId = 'voip-lib-android'
+            version = "1.0.13"
             pom {
-                withXml {
-                    def dependenciesNode = asNode().appendNode('dependencies')
-
-                    project.configurations.implementation.allDependencies.each {
-                        if (it.group != null || it.name != null || it.version != null || it.name == "unspecified") return
-
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                    }
-                }
+                description = 'First release'
             }
         }
     }
     repositories {
-        maven {
-            def propsFile = rootProject.file('./github.properties')
-            def props = new Properties()
-            props.load(new FileInputStream(propsFile))
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/RD-MT/voip-lib-android")
-            credentials {
-                username props['username']
-                password props['token']
-            }
-        }
+        mavenLocal()
     }
 }
 
 dependencies {
-    /*implementation(name: 'linphone-sdk-android-5.2.110', ext: 'aar')*/
     implementation fileTree(include: ['*.jar'], dir: 'jniLibs')
     implementation(libs.kotlin.stdlib)
     implementation libs.retrofit
