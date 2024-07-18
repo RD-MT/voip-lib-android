@@ -2,12 +2,15 @@ package org.libs.core.tools.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.os.Vibrator;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.NotificationCompat.Builder;
 import org.libs.core.Address;
@@ -41,8 +44,8 @@ public class CoreService extends Service {
          this.createServiceNotificationChannel();
       }
 
-      this.mVibrator = (Vibrator)this.getSystemService("vibrator");
-      this.mAudioManager = (AudioManager)this.getSystemService("audio");
+      this.mVibrator = (Vibrator)this.getSystemService(Context.VIBRATOR_SERVICE);
+      this.mAudioManager = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
       this.mListener = new CoreListenerStub() {
          public void onFirstCallStarted(Core core) {
             Log.i("[Core Service] First call started");
@@ -89,7 +92,7 @@ public class CoreService extends Service {
          this.addCoreListener();
       }
 
-      return 1;
+      return Service.START_STICKY_COMPATIBILITY;
    }
 
    public void onTaskRemoved(Intent rootIntent) {
@@ -152,7 +155,7 @@ public class CoreService extends Service {
    public void createServiceNotificationChannel() {
       Log.i("[Core Service] Android >= 8.0 detected, creating notification channel");
       NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-      NotificationChannel channel = new NotificationChannel("org_linphone_core_service_notification_channel", "Linphone Core Service", 2);
+      NotificationChannel channel = new NotificationChannel("org_linphone_core_service_notification_channel", "Linphone Core Service", NotificationManager.IMPORTANCE_LOW);
       channel.setDescription("Used to keep the call(s) alive");
       channel.enableVibration(false);
       channel.enableLights(false);
@@ -161,7 +164,7 @@ public class CoreService extends Service {
    }
 
    public void createServiceNotification() {
-      this.mServiceNotification = (new Builder(this, "org_linphone_core_service_notification_channel")).setContentTitle("Linphone Core Service").setContentText("Used to keep the call(s) alive").setSmallIcon(this.getApplicationInfo().icon).setAutoCancel(false).setCategory("service").setVisibility(-1).setWhen(System.currentTimeMillis()).setShowWhen(true).setOngoing(true).build();
+      this.mServiceNotification = (new Builder(this, "org_linphone_core_service_notification_channel")).setContentTitle("Linphone Core Service").setContentText("Used to keep the call(s) alive").setSmallIcon(this.getApplicationInfo().icon).setAutoCancel(false).setCategory("service").setVisibility(NotificationCompat.VISIBILITY_PRIVATE).setWhen(System.currentTimeMillis()).setShowWhen(true).setOngoing(true).build();
    }
 
    public void showForegroundServiceNotification() {

@@ -1,5 +1,6 @@
 package org.libs.core.tools.receiver;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,6 +13,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
       Log.i("[Bluetooth] Bluetooth receiver created");
    }
 
+   @SuppressLint("MissingPermission")
    public void onReceive(Context context, Intent intent) {
       String action = intent.getAction();
       Log.i("[Bluetooth] Bluetooth broadcast received");
@@ -48,7 +50,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
          BluetoothDevice device = (BluetoothDevice)intent.getParcelableExtra("android.bluetooth.device.extra.NAME");
          if (state == 2) {
             if (device != null) {
-               Log.i("[Bluetooth] Bluetooth headset connected: [", device.getName(), "]");
+               Log.i("[Bluetooth] Bluetooth headset connected: [", "", "]");
             } else {
                Log.i("[Bluetooth] Bluetooth headset connected: [unknown device]");
             }

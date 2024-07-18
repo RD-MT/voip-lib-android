@@ -18,6 +18,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Build.VERSION;
 import android.view.Display;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -86,6 +89,7 @@ public class CoreManager {
 
    private native void healNetworkConnections(long var1);
 
+   @RequiresApi(api = Build.VERSION_CODES.R)
    public CoreManager(Object context, Core core) {
       this.mContext = ((Context)context).getApplicationContext();
       this.mCore = core;

@@ -1,5 +1,6 @@
 package org.libs.core.tools;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -86,6 +87,7 @@ public class AndroidPlatformHelper {
 
    private native boolean useSystemHttpProxy(long var1);
 
+   @SuppressLint("InvalidWakeLockTag")
    public AndroidPlatformHelper(long nativePtr, Object ctx_obj, boolean wifiOnly) {
       this.mNativePtr = nativePtr;
       this.mContext = ((Context)ctx_obj).getApplicationContext();
@@ -95,9 +97,9 @@ public class AndroidPlatformHelper {
       this.mMainHandler = new Handler(this.mContext.getMainLooper());
       MediastreamerAndroidContext.setContext(this.mContext);
       Log.i("[Platform Helper] Created, wifi only mode is " + (this.mWifiOnly ? "enabled" : "disabled"));
-      WifiManager wifiMgr = (WifiManager)this.mContext.getSystemService("wifi");
-      this.mPowerManager = (PowerManager)this.mContext.getSystemService("power");
-      this.mConnectivityManager = (ConnectivityManager)this.mContext.getSystemService("connectivity");
+      WifiManager wifiMgr = (WifiManager)this.mContext.getSystemService(Context.WIFI_SERVICE);
+      this.mPowerManager = (PowerManager)this.mContext.getSystemService(Context.POWER_SERVICE);
+      this.mConnectivityManager = (ConnectivityManager)this.mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
       this.mWakeLock = this.mPowerManager.newWakeLock(1, "AndroidPlatformHelper");
       this.mWakeLock.setReferenceCounted(true);
       this.mMcastLock = wifiMgr.createMulticastLock("AndroidPlatformHelper");
@@ -574,7 +576,7 @@ public class AndroidPlatformHelper {
    public synchronized void rotateVideoPreview() {
       if (this.mPreviewTextureView != null && this.mPreviewTextureView instanceof CaptureTextureView) {
          Log.i("[Platform Helper] Found CaptureTextureView, rotating...");
-         WindowManager windowManager = (WindowManager)this.mContext.getSystemService("window");
+         WindowManager windowManager = (WindowManager)this.mContext.getSystemService(Context.WINDOW_SERVICE);
          int rotation = windowManager.getDefaultDisplay().getRotation() * 90;
          ((CaptureTextureView)this.mPreviewTextureView).rotateToMatchDisplayOrientation(rotation);
       } else if (this.mPreviewTextureView != null) {

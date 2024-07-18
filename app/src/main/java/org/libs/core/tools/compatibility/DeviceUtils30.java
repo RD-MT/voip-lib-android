@@ -3,7 +3,11 @@ package org.libs.core.tools.compatibility;
 import android.app.ActivityManager;
 import android.app.ApplicationExitInfo;
 import android.content.Context;
+import android.os.Build;
 import android.text.format.DateFormat;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,8 +19,9 @@ import java.util.stream.Collectors;
 import org.libs.core.tools.Log;
 
 public class DeviceUtils30 {
+   @RequiresApi(api = Build.VERSION_CODES.R)
    public static void logPreviousCrashesIfAny(Context context) {
-      ActivityManager activityManager = (ActivityManager)context.getSystemService("activity");
+      ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
       List<ApplicationExitInfo> exitInfos = activityManager.getHistoricalProcessExitReasons((String)null, 0, 5);
 
       for(Iterator var3 = exitInfos.iterator(); var3.hasNext(); Log.i("=========================================")) {
@@ -25,7 +30,7 @@ public class DeviceUtils30 {
          Log.i("REASON=", getReasonAsString(exitInfo.getReason()));
          Log.i("TIMESTAMP=", getHumanReadableDateAndTimeFromTimestamp(exitInfo.getTimestamp()));
          Log.i("DESCRIPTION=", exitInfo.getDescription());
-         if (exitInfo.getReason() == 6) {
+         if (exitInfo.getReason() == ApplicationExitInfo.REASON_ANR) {
             try {
                InputStream inputStream = exitInfo.getTraceInputStream();
                if (inputStream != null) {

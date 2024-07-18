@@ -6,12 +6,17 @@ import android.app.Service;
 import android.app.NotificationManager.Policy;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.SurfaceTexture;
 import android.media.AudioAttributes;
 import android.media.Ringtone;
+import android.os.Build;
 import android.os.Vibrator;
 import android.provider.ContactsContract.Data;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.Map;
 import org.libs.core.Address;
 import org.libs.core.tools.Log;
@@ -38,11 +43,14 @@ public class DeviceUtils {
       return Version.sdkAboveOrEqual(26) ? DeviceUtils26.isSurfaceTextureReleased(surfaceTexture) : false;
    }
 
+   @RequiresApi(api = Build.VERSION_CODES.R)
    public static void logPreviousCrashesIfAny(Context context) {
       if (Version.sdkAboveOrEqual(31)) {
          DeviceUtils31.logPreviousCrashesIfAny(context);
       } else if (Version.sdkAboveOrEqual(30)) {
-         DeviceUtils30.logPreviousCrashesIfAny(context);
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            DeviceUtils30.logPreviousCrashesIfAny(context);
+         }
       }
 
    }
@@ -75,7 +83,7 @@ public class DeviceUtils {
 
    public static boolean checkIfDoNotDisturbAllowsExceptionForFavoriteContacts(Context context) {
       try {
-         NotificationManager notificationManager = (NotificationManager)context.getSystemService("notification");
+         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
          Policy policy = notificationManager.getNotificationPolicy();
          return policy.priorityCallSenders == 2;
       } catch (SecurityException var3) {
@@ -87,7 +95,7 @@ public class DeviceUtils {
    public static boolean checkIfIsFavoriteContact(Context context, Address caller) {
       if (caller == null) {
          return false;
-      } else if (context.checkSelfPermission("android.permission.READ_CONTACTS") != 0) {
+      } else if (context.checkSelfPermission("android.permission.READ_CONTACTS") != PackageManager.PERMISSION_GRANTED) {
          Log.e("[Device Utils] Can't check for favorite contact, permission hasn't been granted yet");
          return false;
       } else {
