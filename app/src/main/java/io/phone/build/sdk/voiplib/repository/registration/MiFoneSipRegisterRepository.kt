@@ -1,6 +1,6 @@
 package io.phone.build.sdk.voiplib.repository.registration
 
-import org.linphone.core.*
+import org.libs.core.*
 import io.phone.build.sdk.voipsdkandroid.PIL
 import io.phone.build.sdk.voipsdkandroid.configuration.Auth
 import io.phone.build.sdk.voipsdkandroid.logWithContext

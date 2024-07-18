@@ -10,7 +10,7 @@ android {
         minSdk 28
         targetSdk 34
         versionCode 1
-        versionName "1.0.4"
+        versionName "1.0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -19,6 +19,12 @@ android {
         singleVariant("release") {
             withSourcesJar()
             withJavadocJar()
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['jniLibs']
         }
     }
 }
@@ -33,7 +39,7 @@ publishing {
         release(MavenPublication) {
             groupId "com.github.RD-MT"
             artifactId "voip-lib-android"
-            version "1.0.4"
+            version "1.0.5"
 
             afterEvaluate {
                 from components.release
@@ -81,7 +87,8 @@ publishing {
 }*/
 
 dependencies {
-    implementation(name: 'linphone-sdk-android-5.2.110', ext: 'aar')
+    /*implementation(name: 'linphone-sdk-android-5.2.110', ext: 'aar')*/
+    implementation fileTree(include: ['*.jar'], dir: 'jniLibs')
     implementation(libs.kotlin.stdlib)
     implementation libs.retrofit
     implementation libs.converter.gson
@@ -97,4 +104,8 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
+
+    implementation "com.google.android.gms:play-services-location:16.0.0"
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
 }

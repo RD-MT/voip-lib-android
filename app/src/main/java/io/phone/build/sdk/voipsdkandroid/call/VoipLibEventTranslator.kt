@@ -1,6 +1,6 @@
 package io.phone.build.sdk.voipsdkandroid.call
 
-import org.linphone.core.AudioDevice
+import org.libs.core.AudioDevice
 import io.phone.build.sdk.voipsdkandroid.PIL
 import io.phone.build.sdk.voipsdkandroid.events.Event.CallSessionEvent.*
 import io.phone.build.sdk.voipsdkandroid.events.Event.CallSessionEvent.AttendedTransferEvent.*

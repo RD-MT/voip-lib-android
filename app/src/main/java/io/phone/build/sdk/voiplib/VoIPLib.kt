@@ -2,7 +2,6 @@ package io.phone.build.sdk.voiplib
 
 import android.Manifest.permission.RECORD_AUDIO
 import androidx.annotation.RequiresPermission
-import org.linphone.core.Factory
 import io.phone.build.sdk.voipsdkandroid.di.di
 import io.phone.build.sdk.voiplib.config.Config
 import io.phone.build.sdk.voiplib.model.Call
@@ -11,6 +10,7 @@ import io.phone.build.sdk.voiplib.repository.MiFoneCoreInstanceManager
 import io.phone.build.sdk.voiplib.repository.call.controls.MiFoneSipActiveCallControlsRepository
 import io.phone.build.sdk.voiplib.repository.call.session.MiFoneSipSessionRepository
 import io.phone.build.sdk.voiplib.repository.registration.MiFoneSipRegisterRepository
+import org.libs.core.Factory
 
 typealias RegistrationCallback = (RegistrationState) -> Unit
 

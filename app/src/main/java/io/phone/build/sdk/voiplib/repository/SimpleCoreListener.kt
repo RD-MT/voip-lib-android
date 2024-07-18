@@ -1,6 +1,6 @@
 package io.phone.build.sdk.voiplib.repository
 
-import org.linphone.core.*
+import org.libs.core.*
 
 internal interface SimpleCoreListener : CoreListener {
 

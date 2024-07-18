@@ -2,10 +2,10 @@ package io.phone.build.sdk.voiplib.repository
 
 import android.content.Context
 import android.util.Log
-import org.linphone.core.*
-import org.linphone.core.GlobalState.Off
-import org.linphone.core.GlobalState.On
-import org.linphone.core.LogLevel.*
+import org.libs.core.*
+import org.libs.core.GlobalState.Off
+import org.libs.core.GlobalState.On
+import org.libs.core.LogLevel.*
 import io.phone.build.sdk.voiplib.config.Config
 import io.phone.build.sdk.voiplib.model.Call
 import io.phone.build.sdk.voiplib.model.Codec
@@ -14,7 +14,7 @@ import io.phone.build.sdk.voiplib.repository.initialize.LogLevel
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
-import org.linphone.core.Call as LinphoneCall
+import org.libs.core.Call as LinphoneCall
 
 internal class MiFoneCoreInstanceManager(private val context: Context): SimpleCoreListener {
 
@@ -184,7 +184,7 @@ internal class MiFoneCoreInstanceManager(private val context: Context): SimpleCo
 
     override fun onCallReceiveMasterKeyChanged(
         core: Core,
-        call: org.linphone.core.Call,
+        call: org.libs.core.Call,
         masterKey: String?
     ) {
         Log.e(TAG, "onCallReceiveMasterKeyChanged: Not implemented")
@@ -192,7 +192,7 @@ internal class MiFoneCoreInstanceManager(private val context: Context): SimpleCo
 
     override fun onCallSendMasterKeyChanged(
         core: Core,
-        call: org.linphone.core.Call,
+        call: org.libs.core.Call,
         masterKey: String?
     ) {
         Log.e(TAG, "onCallSendMasterKeyChanged: Not implemented")
@@ -201,7 +201,7 @@ internal class MiFoneCoreInstanceManager(private val context: Context): SimpleCo
     override fun onChatRoomSessionStateChanged(
         core: Core,
         chatRoom: ChatRoom,
-        state: org.linphone.core.Call.State?,
+        state: org.libs.core.Call.State?,
         message: String
     ) {
         Log.e(TAG, "onChatRoomSessionStateChanged: Not implemented")
@@ -211,7 +211,7 @@ internal class MiFoneCoreInstanceManager(private val context: Context): SimpleCo
         Log.e(TAG, "onPreviewDisplayErrorOccurred: Not implemented")
     }
 
-    override fun onTransferStateChanged(lc: Core, transfered: org.linphone.core.Call, newCallState: org.linphone.core.Call.State) {
+    override fun onTransferStateChanged(lc: Core, transfered: org.libs.core.Call, newCallState: org.libs.core.Call.State) {
         voipLibConfig.callListener.attendedTransferMerged(Call(transfered))
     }
 
@@ -223,7 +223,7 @@ internal class MiFoneCoreInstanceManager(private val context: Context): SimpleCo
      * The data is only updated when a new, non-null, non-blank value
      * is found.
      */
-    private fun preserveInviteData(linphoneCall: org.linphone.core.Call) {
+    private fun preserveInviteData(linphoneCall: org.libs.core.Call) {
         if (linphoneCall.userData == null) {
             linphoneCall.userData = PreservedInviteData()
         }
@@ -255,7 +255,7 @@ internal class MiFoneCoreInstanceManager(private val context: Context): SimpleCo
         Log.e(TAG, "onSubscribeReceived: Not yet implemented")
     }
 
-    /*override fun onLogMessageWritten(service: LoggingService, domain: String, lev: org.linphone.core.LogLevel, message: String) {
+    /*override fun onLogMessageWritten(service: LoggingService, domain: String, lev: org.libs.core.LogLevel, message: String) {
         GlobalScope.launch(Dispatchers.IO) {
             voipLibConfig.logListener?.onLogMessageWritten(when (lev) {
                 Debug -> LogLevel.DEBUG

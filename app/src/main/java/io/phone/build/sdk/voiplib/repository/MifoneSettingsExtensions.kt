@@ -1,6 +1,6 @@
 package io.phone.build.sdk.voiplib.repository
 
-import org.linphone.core.Core
+import org.libs.core.Core
 
 /**
  * This file contains extension properties to allow for configuration of Linphone config items
